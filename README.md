@@ -25,23 +25,23 @@ Monitoring Prometheus in Kubernetes
 # Configuration Prometheus
 | Configuration | Justification | file | How | 
 | ------ | ------ | ------ | ------ |
-| allowVolumeExpansion | extend Volumet | [prometheus-storage](https://github.com/peppiii/prometheus-k8s/prometheus-storage.yml) | true
-| type Storage | pd-standard or pd-ssd | [prometheus-storage](https://github.com/peppiii/prometheus-k8s/prometheus-storage.yml) | pd-standard or pd-ssd
-| size storage | default 20Gi | [storage](https://github.com/peppiii/prometheus-k8s/prometheus-pvc.yml) | 20Gi
-| namespaces | monitoring | [namespaces](https://github.com/peppiii/prometheus-k8s/monitoring.yml) | monitoring
-| prometheus-scrapes | prometheus-scrapes | [rules-prometheus](https://github.com/peppiii/prometheus-k8s/prometheus-rules-config.yaml) | true
-| alertmanager | alertmanager | [alert-manager](https://github.com/peppiii/prometheus-k8s/prometheus-rules-alertmanager-configmap.yml) | true
-| retention storage | retention storage | [retention](https://github.com/peppiii/prometheus-k8s/prometheus-deployment.yaml) | true
+| allowVolumeExpansion | extend Volumet | [prometheus-storage](https://github.com/peppiii/prometheus-k8s//blob/master/prometheus-storage.yml) | true
+| type Storage | pd-standard or pd-ssd | [prometheus-storage](https://github.com/peppiii/prometheus-k8s//blob/master/prometheus-storage.yml) | pd-standard or pd-ssd
+| size storage | default 20Gi | [storage](https://github.com/peppiii/prometheus-k8s//blob/master/prometheus-pvc.yml) | 20Gi
+| namespaces | monitoring | [namespaces](https://github.com/peppiii/prometheus-k8s/blob/master/monitoring.yml) | monitoring
+| prometheus-scrapes | prometheus-scrapes | [rules-prometheus](https://github.com/peppiii/prometheus-k8s/blob/master/prometheus-rules-config.yaml) | true
+| alertmanager | alertmanager | [alert-manager](https://github.com/peppiii/prometheus-k8s/blob/master/prometheus-rules-alertmanager-configmap.yml) | true
+| retention storage | retention storage | [retention](https://github.com/peppiii/prometheus-k8s/blob/master/prometheus-deployment.yaml) | true
 # Error Prometheus
 | Error | Justification | How |
 | ------ | ------ | ------ |
-| Opening storage failed invalid block sequence: block time ranges overlap after | extend volume | please check line  13 in file [prometheus-pvc.yml](https://github.com/peppiii/prometheus-k8s/prometheus-pvc.yml)|
+| Opening storage failed invalid block sequence: block time ranges overlap after | extend volume | please check line  13 in file [prometheus-pvc.yml](https://github.com/peppiii/prometheus-k8s/blob/master/prometheus-pvc.yml)|
 | Permission denied writing to mount using volumeClaimTemplate | securityContext |  The SecurityContext allows you so specify the user and group you want your Pod to run as, which will allow you to predict the permissions your volume will need  [permission](https://github.com/prometheus-operator/prometheus-operator/issues/966)|
 | persistent volumes permission denied | securityContext |  The SecurityContext allows you so specify the user and group you want your Pod to run as, which will allow you to predict the permissions your volume will need [permission](https://github.com/prometheus-operator/prometheus-operator/issues/966)
 | Container Creating long 10 menit | check describe pods in namespaces monitoring | kubectl describe pods pods-id -n monitoring |
-| Error on statfs() system call permission denied" source="filesystem_linux.go:57" | run as root in daemonset | change security context in [daemon-set](https://github.com/peppiii/prometheus-k8s/prometheus-node-exporter-daemonset.yml) to runAsUser: 0 |
+| Error on statfs() system call permission denied" source="filesystem_linux.go:57" | run as root in daemonset | change security context in [daemon-set](https://github.com/peppiii/prometheus-k8s/blob/master/prometheus-node-exporter-daemonset.yml) to runAsUser: 0 |
 | diskstats collector failed after 0.000629s: invalid line for /host/proc/diskstats | disable diskstats | --no-collector.diskstats, refer to [diskstats](https://stackoverflow.com/questions/53379593/starting-node-exporter-while-disable-ling-a-specific-collector-collector-disks)
-| Error parsing commandline arguments: unexpected enable prometheus: error: unexpected enable | remove command args in prometheus deployments | remove - '--web.enable-admin-api=enable' to - '--web.enable-admin-api' refer to [prometheus](https://github.com/peppiii/prometheus-k8s/prometheus-deployment.yaml)
+| Error parsing commandline arguments: unexpected enable prometheus: error: unexpected enable | remove command args in prometheus deployments | remove - '--web.enable-admin-api=enable' to - '--web.enable-admin-api' refer to [prometheus](https://github.com/peppiii/prometheus-k8s/blob/master/prometheus-deployment.yaml)
 
 # Clear Data
 Delete Time Series Metrics, Use the following syntax to delete all time series metrics that match some label:
